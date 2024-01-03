@@ -21,4 +21,5 @@ class Customer
     Customer(string userName,string name,string phoneNumber);
     ~Customer();
     void ShowCustomerDetails();
+    string GetUserName();
 };

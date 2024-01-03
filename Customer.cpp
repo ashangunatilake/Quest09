@@ -27,3 +27,8 @@ void Customer::ShowCustomerDetails()
     }
     
 }
+
+string Customer::GetUserName()
+{
+    return UserName;
+}
