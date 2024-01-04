@@ -1,20 +1,27 @@
-#include <string>;
-#include <list>;
-#include "Customer.h";
+#pragma once
+#include <string>
+#include <list>
+
+class Customer;
+
 using namespace std;
 
-class Account{
-    private:
-     Customer* AccountHolder;
-     string AccountNumber;
-     float AccountBalance;
-     list<string> AccountHistory={};
-     Bool IsSavingAccount;
+class Account
+{
+private:
+    Customer* customer;
+    int account_number;
+    double balance;
+    list<string> AccountHistory={};
       
-    public:
-      void ShowAccountFullDetails();
-      void deposit(float dep);
-      void withdrow();
-      void ShowAccountDetails();
+public:
+    Account(int number);
+    ~Account();
+    Customer* getCustomer();
+    int getAccountNumber();
+    double getBalance();
+    void setBalance(double amount);
+    //void ShowAccountFullDetails();
+    //void ShowAccountDetails();
 
 };

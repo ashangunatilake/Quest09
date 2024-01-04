@@ -1,65 +1,88 @@
 #include "Account.h";
+#include "Customer.h"
 
-
-
-Account::Account(number)
+Account::Account(int number)
 {
-    AccountNumber = number;
+    account_number = number;
+    balance = 0;
 }
 
-Account::~Account(){}
-
-void Account::ShowAccountDetails()
+Account::~Account()
 {
-    cout<<"Account number :"<<AccountNumber<<endl;
-    cout<<"Account balance :"<<AccountBalance<<endl;
-    for(string delail : AccountHistory)
-    {
-        cout<<detail<<endl;
-    }
+
 }
 
-void Account::ShowAccountFullDetails()
+//void Account::ShowAccountDetails()
+//{
+//    cout<<"Account number :"<<AccountNumber<<endl;
+//    cout<<"Account balance :"<<AccountBalance<<endl;
+//    for(string delail : AccountHistory)
+//    {
+//        cout<<detail<<endl;
+//    }
+//}
+//
+//void Account::ShowAccountFullDetails()
+//{
+//    cout<<"Customer name :"<<AccountHolder->Name<<endl;
+//    cout<<"Customer user name :"<<AccountHolder->UserName<<endl;;
+//    Cout<<"Customer contact detail :"<<AccountHolder->PhoneNumber<<endl;
+//    
+//    cout<<"Account number :"<<AccountNumber<<endl;
+//    cout<<"Account balance :"<<AccountBalance<<endl;
+//    for(string delail : AccountHistory)
+//    {
+//        cout<<detail<<endl;
+//    }
+//}
+//
+//void Account::deposit(float dep)
+//{
+//    AccountBalance=AccountBalance+dep;
+//    string k="Deposit  "+to_string(dep)+"  ";
+//    AccountHistory.push_front(k)
+//}
+//
+//void Account::withdrow(float with)
+//{
+//    if(IsSavingAccount==true)
+//    {
+//        if(AccountBalance>=with)
+//        {
+//            AccountBalance=AccountBalance-with;
+//            string k="Withdrow  "+to_string(dep)+"  ";
+//            AccountHistory.push_front(k)
+//        }
+//        else
+//        {
+//            cout<<"Error!Withdow amount grater than account balance"<<endl;
+//        }
+//
+//    }
+//    else
+//    {
+//        AccountBalance=AccountBalance-with;
+//            string k="Withdrow  "+to_string(dep)+"  ";
+//            AccountHistory.push_front(k)
+//    }
+//}
+
+Customer* Account::getCustomer()
 {
-    cout<<"Customer name :"<<AccountHolder->Name<<endl;
-    cout<<"Customer user name :"<<AccountHolder->UserName<<endl;;
-    Cout<<"Customer contact detail :"<<AccountHolder->PhoneNumber<<endl;
-    
-    cout<<"Account number :"<<AccountNumber<<endl;
-    cout<<"Account balance :"<<AccountBalance<<endl;
-    for(string delail : AccountHistory)
-    {
-        cout<<detail<<endl;
-    }
+    return customer;
 }
 
-void Account::deposit(float dep)
+int Account::getAccountNumber()
 {
-    AccountBalance=AccountBalance+dep;
-    string k="Deposit  "+to_string(dep)+"  ";
-    AccountHistory.push_front(k)
+    return account_number;
 }
 
-void Account::withdrow(float with)
+double Account::getBalance()
 {
-    if(IsSavingAccount==true)
-    {
-        if(AccountBalance>=with)
-        {
-            AccountBalance=AccountBalance-with;
-            string k="Withdrow  "+to_string(dep)+"  ";
-            AccountHistory.push_front(k)
-        }
-        else
-        {
-            cout<<"Error!Withdow amount grater than account balance"<<endl;
-        }
+    return balance;
+}
 
-    }
-    else
-    {
-        AccountBalance=AccountBalance-with;
-            string k="Withdrow  "+to_string(dep)+"  ";
-            AccountHistory.push_front(k)
-    }
+void Account::setBalance(double amount)
+{
+    balance = +amount;
 }

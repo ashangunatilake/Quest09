@@ -1,24 +1,24 @@
-#include <string>;
-#include <iostream>;
-#include <list>;
-#include "Account.h";
+#pragma once
+#include <string>
+#include <iostream>
+#include <list>
+#include "User.h"
+#include "SavingAccount.h"
+#include "CurrentAccount.h"
+
 using namespace std;
 
-
-
-class Customer
+class Customer : public User
 {
  private:
-     string UserName;
-     string Name;
-     string PhoneNumber;
-     string Password= "Password@1234";
-     Account *SavingAccount;
-     Account *CurrentAccount;
+     SavingAccount *saving_account;
+     CurrentAccount *current_account;
     
 
  public:
-    Customer(string userName,string name,string phoneNumber);
+    Customer(string name);
     ~Customer();
-    void ShowCustomerDetails();
+    SavingAccount* getSavingAccount();
+    CurrentAccount* getCurrentAccount();
+    //void ShowCustomerDetails();
 };
