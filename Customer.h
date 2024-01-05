@@ -1,7 +1,7 @@
-#include <string>;
-#include <iostream>;
-#include <list>;
-#include "Account.h";
+#include <string>
+#include <iostream>
+#include <list>
+#include "Account.h"
 using namespace std;
 
 
@@ -13,8 +13,8 @@ class Customer
      string Name;
      string PhoneNumber;
      string Password= "Password@1234";
-     Account *SavingAccount;
-     Account *CurrentAccount;
+     Account* SavingAccount;
+     Account* CurrentAccount;
     
 
  public:

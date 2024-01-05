@@ -1,6 +1,6 @@
-#include <string>;
-#include <list>;
-#include "Customer.h";
+#include <string>
+#include <list>
+#include "Customer.h"
 using namespace std;
 
 class Account{
@@ -9,7 +9,7 @@ class Account{
      string AccountNumber;
      float AccountBalance;
      list<string> AccountHistory={};
-     Bool IsSavingAccount;
+     bool IsSavingAccount;
       
     public:
       void ShowAccountFullDetails();
