@@ -1,34 +1,35 @@
-#include "Customer.h";
-#include <iostream>;
+#include "Customer.h"
+#include <iostream>
 
-Customer::Customer(string userName,string name,string phoneNumber)
+Customer::Customer(string name) : User(name)
 {
-    UserName=userName;
-    Name=name;
-    PhoneNumber=phoneNumber;
-
-
+    saving_account = NULL;
+    current_account = NULL;
 }
 
 Customer::~Customer(){}
 
-void Customer::ShowCustomerDetails()
+SavingAccount* Customer::getSavingAccount()
 {
-    cout<<"Customer name :"<<Name<<endl;
-    cout<<"Customer user name :"<<UserName<<endl;;
-    cout<<"Customer contact detail :"<<PhoneNumber<<endl;
-    if(SavingAccount!=nullptr)
-    {
-        SavingAccount->ShowAccountDetails();
-    }
-    if(CurrentAccount!=nullptr)
-    {
-        CurrentAccount->ShowAccountDetails();
-    }
-    
+    return saving_account;
+}
+CurrentAccount* Customer::getCurrentAccount()
+{
+    return current_account;
 }
 
-string Customer::GetUserName()
-{
-    return UserName;
-}
+//void Customer::ShowCustomerDetails()
+//{
+//    cout<<"Customer name :"<<Name<<endl;
+//    cout<<"Customer user name :"<<UserName<<endl;;
+//    cout<<"Customer contact detail :"<<PhoneNumber<<endl;
+//    if(SavingAccount!=nullptr)
+//    {
+//        SavingAccount->ShowAccountDetails();
+//    }
+//    if(CurrentAccount!=nullptr)
+//    {
+//        CurrentAccount->ShowAccountDetails();
+//    }
+//    
+//}

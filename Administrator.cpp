@@ -1,38 +1,36 @@
 #include <string>
-#include "Bank.cpp"
+#include "Administrator.h"
 
 using namespace std;
 
-class Administrator: public User
-{
-public:
-	Administrator(string username, string password): User(username, password) {}
+Administrator::Administrator(string name) : User(name) {}
 	
-	void addEmployee(string name)
-	{
-		Bank.employees.push_back(Employee(employee_name));
-	}
+void Administrator::addEmployee(Bank bank, string name)
+{
+	Employee* employee = new Employee(name);
+	bank.employees.push_back(employee);
+}
 
-	void increaseDate()
-	{
-		Bank.current_date++;
-	}
+void Administrator::increaseDate(Bank bank)
+{
+	bank.current_date++;
+}
 
-	void setAnnualSavingInterest(double rate)
-	{
-		Bank.annual_saving_rate = rate;
-	}
+void Administrator::setAnnualSavingInterest(Bank bank, double rate)
+{
+	bank.annual_saving_rate = rate;
+}
 
-	void addDailyInterest(double rate)
+void Administrator::addDailyInterest(Bank bank, double rate)
+{
+	for (const auto& a : bank.saving_accounts)
 	{
-		for (const auto& a : Bank.saving_accounts)
-		{
-			a.amount = a.amount + a.amount * rate;
-		}
+		a->setBalance(a->getBalance() + a->getBalance() * rate);
+		//a.amount = a.amount + a.amount * rate;
 	}
+}
 
-	void setOverdraftCharge(double charge)
-	{
-		Bank.overdraft_charge = charge;
-	}
-};
+void setOverdraftCharge(Bank bank, double charge)
+{
+	bank.overdraft_charge = charge;
+}
