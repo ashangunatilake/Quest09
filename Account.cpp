@@ -3,6 +3,7 @@
 
 Account::Account(int number)
 {
+    customer = NULL;
     account_number = number;
     balance = 0;
 }
@@ -84,5 +85,5 @@ double Account::getBalance()
 
 void Account::setBalance(double amount)
 {
-    balance = +amount;
+    balance = amount;
 }
