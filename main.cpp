@@ -456,11 +456,19 @@ int main()
 			{
 				
 			}
+			else if (num2 == 4)
+			{
+				loggedIn = false;
+				cout << "Successfully logged out" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
 
 		} while (loggedIn);
 
 	}
-	if (num == 4)
+	if (num == 4) //deposit money to an account from outside
 	{
 		
 	}
