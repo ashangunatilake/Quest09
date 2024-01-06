@@ -489,10 +489,22 @@ int main()
 				cin.get();
 				cin.get();
 			}
+<<<<<<< HEAD
+=======
+			else if (num2 == 4)
+			{
+				loggedIn = false;
+				cout << "Successfully logged out" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+
+>>>>>>> 11ad6baaab151a27052b4e054ba6330cb5d62e62
 		} while (loggedIn);
 
 	}
-	if (num == 4)
+	if (num == 4) //deposit money to an account from outside
 	{
 		string name;
 		int num;
