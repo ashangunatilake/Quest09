@@ -8,8 +8,12 @@ class User
 protected:
 	string username;
 	string password;
+	char type;
 
 public:
-	User(string name);
+	User();
+	User(string name, char t);
 	string getUsername();
+	string getPassword();
+	bool authenticate(string name, string pw, char t);
 };

@@ -3,9 +3,11 @@
 
 using namespace std;
 
-Administrator::Administrator(string name) : User(name) {}
+Administrator::Administrator() : User() {}
+
+Administrator::Administrator(string name) : User(name, 'A') {}
 	
-void Administrator::addEmployee(Bank bank, string name)
+void Administrator::addEmployee(Bank& bank, string name)
 {
 	Employee* employee = new Employee(name);
 	bank.employees.push_back(employee);
@@ -21,7 +23,7 @@ void Administrator::setOverdraftCharge(Bank bank, double charge)
 	bank.overdraft_charge = charge;
 }
 
-void Administrator::addDailyInterest(Bank bank)
+void Administrator::addDailyInterest(Bank& bank)
 {
 	for (const auto& a : bank.saving_accounts)
 	{
@@ -37,7 +39,7 @@ void Administrator::chargeDailyOverdraftPenalty(Bank bank)
 	}
 }
 
-void Administrator::increaseDate(Bank bank)
+void Administrator::increaseDate(Bank& bank)
 {
 	bank.current_date++;
 	chargeDailyOverdraftPenalty(bank);
