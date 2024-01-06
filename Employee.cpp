@@ -128,6 +128,7 @@ void Employee::withdrawMoney(Bank &bank, string s_name, int r_number, double amo
 			}
 			else
 			{
+				account->setBalance(0);
 				bank.bank_account->setBalance(bank.bank_account->getBalance() - yet_to_withdraw);
 				bank.admin->overdrafts.push_back(c_account->getCustomer());
 				Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_name, account->getBalance());

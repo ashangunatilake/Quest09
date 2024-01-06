@@ -1,3 +1,9 @@
+/*
+index numbers - 21/ENG/018
+				21/ENG/047
+				21/ENG/068
+*/
+
 #include <iostream>
 #include <string>
 #include <conio.h>
@@ -147,7 +153,7 @@ void  writeFile(Bank& bank, string userfile, string accoutfile)
 			file << c->getUsername() << " " << c->getPassword() << " " << "C" << " " << c->getContactNumber() << endl;
 		}
 		file.close();
-		cout << "User written to file." << endl;
+		cout << "Users written to file." << endl;
 	}
 	else
 	{
@@ -191,42 +197,45 @@ int main()
 	system("CLS");
 	string userName;
 	string password;
-	do {
-		password = "";
-		cout << "Username : ";
-		cin >> userName;
-		cout << "Password : ";
-		password = hidePassword();
-		if (num == 1)
-		{
-			loggedIn = login(userName, password, 'A');
-			if (!loggedIn)
+	if (num != 4)
+	{
+		do {
+			password = "";
+			cout << "Username : ";
+			cin >> userName;
+			cout << "Password : ";
+			password = hidePassword();
+			if (num == 1)
 			{
-				cout << "Incorrect username or password" << endl;
+				loggedIn = login(userName, password, 'A');
+				if (!loggedIn)
+				{
+					cout << "Incorrect username or password" << endl;
+				}
 			}
-		}
-		else if (num == 2)
-		{
-			loggedIn = login(userName, password, 'E');
-			if (!loggedIn)
+			else if (num == 2)
 			{
-				cout << "Incorrect username or password" << endl;
+				loggedIn = login(userName, password, 'E');
+				if (!loggedIn)
+				{
+					cout << "Incorrect username or password" << endl;
+				}
 			}
-		}
-		else if (num == 3)
-		{
-			loggedIn = login(userName, password, 'C');
-			if (!loggedIn)
+			else if (num == 3)
 			{
-				cout << "Incorrect username or password" << endl;
+				loggedIn = login(userName, password, 'C');
+				if (!loggedIn)
+				{
+					cout << "Incorrect username or password" << endl;
+				}
 			}
-		}
-		else
-		{
-			cout << "Invalid input" << endl;
-			return 1;
-		} 
-	} while (!loggedIn);
+			else
+			{
+				cout << "Invalid input" << endl;
+				return 1;
+			}
+		} while (!loggedIn);
+	}
 	system("CLS");
 	if (num == 1)
 	{
@@ -398,7 +407,7 @@ int main()
 				double amount;
 				cout << "Enter account number to withdraw - ";
 				cin >> num;
-				cout << "Enter name of the withdraw - ";
+				cout << "Enter name of the withdrawer - ";
 				cin >> name;
 				cout << "Enter amount - ";
 				cin >> amount;
@@ -429,7 +438,7 @@ int main()
 	}
 	if (num == 3)
 	{
-		Customer* customers;
+		Customer* customers = NULL;
 		for (Customer* customer : bank.customers)
 		{
 			if (customer->getUsername() == userName)
@@ -454,15 +463,65 @@ int main()
 			}
 			else if (num2 == 2)
 			{
-				
+				int num;
+				double amount;
+				cout << "Enter account number - ";
+				cin >> num;
+				cout << "Enter amount - ";
+				cin >> amount;
+				customers->depositMoney(bank, num, amount);
 			}
-
+			else if (num2 == 3)
+			{
+				int num;
+				double amount;
+				cout << "Enter account number - ";
+				cin >> num;
+				cout << "Enter amount - ";
+				cin >> amount;
+				customers->withdrawMoney(bank, num, amount);
+			}
+			else if (num2 == 4)
+			{
+				loggedIn = false;
+				cout << "Successfully logged out" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
 		} while (loggedIn);
 
 	}
 	if (num == 4)
 	{
-		
+		string name;
+		int num;
+		double amount;
+		cout << "Enter your name - ";
+		cin >> name;
+		cout << "Enter account number to deposit - ";
+		cin >> num;
+		cout << "Enter amount - ";
+		cin >> amount;
+		Account* account;
+		if ((account = bank.getSavingAccount(num)) != NULL)
+		{
+			account->setBalance(account->getBalance() + amount);
+			Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, name, account->getBalance());
+			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+			vecPtr->push_back(transaction);
+		}
+		else if ((account = bank.getCurrentAccount(num)) != NULL)
+		{
+			account->setBalance(account->getBalance() + amount);
+			Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, name, account->getBalance());
+			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+			vecPtr->push_back(transaction);
+		}
+		else
+		{
+			cout << "Account not found!" << endl;
+		}
 	}
 	writeFile(bank, "users.txt", "accounts.txt");
 	return 0;

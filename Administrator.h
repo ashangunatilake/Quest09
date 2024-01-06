@@ -6,6 +6,7 @@
 #include "Customer.h"
 
 class Bank;
+class Customer;
 
 using namespace std;
 

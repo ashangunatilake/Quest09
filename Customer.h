@@ -2,10 +2,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "Bank.h"
 #include "User.h"
 #include "SavingAccount.h"
 #include "CurrentAccount.h"
 #include "Transaction.h"
+
+class Bank;
 
 using namespace std;
 
@@ -21,7 +24,6 @@ class Customer : public User
 
  public:
     Customer(string name, string c_number);
-    //Customer(string name, int s_number, int c_number);
     ~Customer();
     SavingAccount* getSavingAccount();
     void setSavingAccount(SavingAccount* account);
@@ -30,6 +32,8 @@ class Customer : public User
     double getOverdraftCharges();
     vector<Transaction*>* getTransactions();
     void setOverdraftCharges(double overdraft);
+    void depositMoney(Bank& bank, int number, double amount);
+    void withdrawMoney(Bank& bank, int number, double amount);
     void writeTransaction(Transaction* transaction);
     void viewTransactions();
 };

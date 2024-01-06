@@ -48,28 +48,17 @@ void Customer::setOverdraftCharges(double overdraft)
 
 void  Customer::writeTransaction(Transaction* transaction)
 {
-    //// Generate a timestamp for the transaction
-    //time_t now = time(0);
-    //tm* timePtr = localtime(&now);
-    //int year = 1900 + timePtr->tm_year;
-    //int month = 1 + timePtr->tm_mon;
-    //int day = timePtr->tm_mday;
-
-    // Open a file in append mode
     ofstream transactionFile;
     transactionFile.open("Transactions/" + username + "_transactions.txt", ios::app);
 
     if (transactionFile.is_open())
     {
-        // Write transaction details to the file
-        //transactionFile << "Date: " << day << "/" << month << "/" << year << "\n";
         transactionFile << "Date: " << transaction->date << "\n";
         transactionFile << "Type: " << transaction->type << "\n";
         transactionFile << "Amount: " << transaction->amount << "\n";
         transactionFile << "Sender's Account Number: " << transaction->senders_account_number << "\n";
         transactionFile << "Balance: " << transaction->balance << "\n\n";
 
-        // Close the file
         transactionFile.close();
         cout << "Transaction written to file." << endl;
     }
@@ -103,4 +92,76 @@ void  Customer::viewTransactions()
     {
         cout << "Unable to open file." << endl;
     }
+}
+
+
+void Customer::depositMoney(Bank& bank, int number, double amount)
+{
+	Account* account;
+	if ((account = bank.getSavingAccount(number)) != NULL)
+	{
+		saving_account->setBalance(saving_account->getBalance() + amount);
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, username, saving_account->getBalance());
+		transactions.push_back(transaction);	
+	}
+	else if ((account = bank.getCurrentAccount(number)) != NULL)
+	{
+		current_account->setBalance(current_account->getBalance() + amount);
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, username, current_account->getBalance());
+		transactions.push_back(transaction);
+	}
+	else
+	{
+		cout << "Account not found!" << endl;
+	}
+}
+
+void Customer::withdrawMoney(Bank& bank, int number, double amount)
+{
+	Account* account;
+	if ((account = bank.getSavingAccount(number)) != NULL)
+	{
+		if (saving_account->getBalance() < amount)
+		{
+			cout << "Insufficient Balance!" << endl;
+			return;
+		}
+		else
+		{
+			saving_account->setBalance(account->getBalance() - amount);
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, username, saving_account->getBalance());
+			transactions.push_back(transaction);
+		}
+	}
+	else if ((account = bank.getCurrentAccount(number)) != NULL)
+	{
+		int yet_to_withdraw;
+		if (current_account->getBalance() < amount)
+		{
+			yet_to_withdraw = amount - current_account->getBalance();
+			if (current_account->getOverdraftLimit() < yet_to_withdraw)
+			{
+				cout << "Withdraw Amount Exceeds Overdraft Limit!" << endl;
+				return;
+			}
+			else
+			{
+				current_account->setBalance(0);
+				bank.bank_account->setBalance(bank.bank_account->getBalance() - yet_to_withdraw);
+				bank.admin->overdrafts.push_back(current_account->getCustomer());
+				Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, username, account->getBalance());
+				transactions.push_back(transaction);
+			}
+		}
+		else
+		{
+			current_account->setBalance(current_account->getBalance() - amount);
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, username, account->getBalance());
+			transactions.push_back(transaction);
+		}
+	}
+	else
+	{
+		cout << "Account not found!" << endl;
+	}
 }

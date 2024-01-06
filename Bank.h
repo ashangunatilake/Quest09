@@ -10,6 +10,7 @@
 
 class Administrator;
 class Employee;
+class Customer;
 
 using namespace std;
 
