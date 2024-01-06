@@ -1,11 +1,6 @@
 #include "CurrentAccount.h"
 
-CurrentAccount::CurrentAccount(int number) : Account(number)
-{
-    overdraft_limit = 0;
-}
-
-CurrentAccount::CurrentAccount(string h, int number, double b, double ol) : Account(h, number, b)
+CurrentAccount::CurrentAccount(string h, string c, int number, double b, double ol) : Account(h, c, number, b)
 {
     overdraft_limit = ol;
 }

@@ -2,21 +2,12 @@
 #include <fstream>
 #include <iostream>
 
-Customer::Customer(string name) : User(name, 'C')
+Customer::Customer(string name, string c_number) : User(name, c_number)
 {
     saving_account = NULL;
     current_account = NULL;
     overdraft_charges = 0;
 }
-
-//Customer::Customer(string name, int s_number, int c_number) : User(name)
-//{
-//    saving_account_number = s_number;
-//    current_account_number = c_number;
-//    saving_account = NULL;
-//    current_account = NULL;
-//    overdraft_charges = 0;
-//}
 
 Customer::~Customer(){}
 

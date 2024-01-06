@@ -3,15 +3,11 @@
 
 using namespace std;
 
-User::User()
-{
-}
-
-User::User(string name, char t)
+User::User(string name, string c_number)
 {
 	username = name;
 	password = "Password@1234";
-	type = t;
+	contact_number = c_number;
 }
 
 string User::getUsername()
@@ -19,12 +15,7 @@ string User::getUsername()
 	return username;
 }
 
-string User::getPassword()
+string User::getContactNumber()
 {
-	return password;
-}
-
-bool User::authenticate(string name, string pw, char t)
-{
-	return username == name && password == pw && type == t;
+	return contact_number;
 }

@@ -11,12 +11,13 @@ class Account
 private:
     Customer* customer;
     string holder;
+    string contact_number;
     int account_number;
     double balance;
       
 public:
     Account(int number);
-    Account(string h, int number, double b);
+    Account(string h, string c, int number, double b);
     ~Account();
     Customer* getCustomer();
     void setCustomer(Customer* holder);

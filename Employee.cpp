@@ -1,41 +1,42 @@
 #include "Employee.h"
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
-Employee::Employee(string name) : User(name, 'E') {}
+Employee::Employee(string name, string c_number) : User(name, c_number) {}
 
-
-void Employee::addCustomer(Bank bank, string name)
+void Employee::addCustomer(Bank &bank, string name, string c_number)
 {
-	Customer* customer = new Customer(name);
+	Customer* customer = new Customer(name, c_number);
 	bank.customers.push_back(customer);
 }
 
-void Employee::createSavingAccount(Bank bank, string name)
+void Employee::createSavingAccount(Bank &bank, string name)
 {
 	Customer* customer = bank.getCustomer(name);
 
 	srand(static_cast<unsigned int>(time(nullptr)));
 	int account_number = rand() % (800000 - 900000 + 1);
 
-	SavingAccount* saving_account = new SavingAccount(account_number);
+	//account is created with 0 balance
+	SavingAccount* saving_account = new SavingAccount(customer->getUsername(), customer->getContactNumber(), account_number, 0);
 	bank.saving_accounts.push_back(saving_account);
 }
 
-void Employee::createCurrentAccount(Bank bank, string name, double overdraft)
+void Employee::createCurrentAccount(Bank &bank, string name, double overdraft)
 {
 	Customer* customer = bank.getCustomer(name);
 
 	srand(static_cast<unsigned int>(time(nullptr)));
 	int account_number = rand() % (800000 - 900000 + 1);
-	CurrentAccount* current_account = new CurrentAccount(account_number);
+
+	//account is created with 0 balance and 0 overdraft limit
+	CurrentAccount* current_account = new CurrentAccount(customer->getUsername(), customer->getContactNumber(), account_number, 0, 0);
 	current_account->setOverdraftLimit(overdraft);
 	bank.current_accounts.push_back(current_account);
 }
 
-void Employee::closeCustomerAccount(Bank bank, int number)
+void Employee::closeCustomerAccount(Bank &bank, int number)
 {
 	Account* account;
 	if (account = bank.getSavingAccount(number))
@@ -48,26 +49,26 @@ void Employee::closeCustomerAccount(Bank bank, int number)
 	}
 }
 
-void Employee::depositMoney(Bank bank, string s_number, int r_number, double amount)
+void Employee::depositMoney(Bank &bank, string s_name, int r_number, double amount)
 {
 	Account* account;
 	if (account = bank.getSavingAccount(r_number))
 	{
 		account->setBalance(account->getBalance() + amount);
-		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_number, account->getBalance());
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_name, account->getBalance());
 		vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
 		vecPtr->push_back(transaction);
 	}
 	else if (account = bank.getCurrentAccount(r_number))
 	{
 		account->setBalance(account->getBalance() + amount);
-		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_number, account->getBalance());
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_name, account->getBalance());
 		vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
 		vecPtr->push_back(transaction);
 	}
 }
 
-void Employee::withdrawMoney(Bank bank, string s_number, int r_number, double amount)
+void Employee::withdrawMoney(Bank &bank, string s_name, int r_number, double amount)
 {
 	Account* account;
 	if (account = bank.getSavingAccount(r_number))
@@ -80,7 +81,7 @@ void Employee::withdrawMoney(Bank bank, string s_number, int r_number, double am
 		else
 		{
 			account->setBalance(account->getBalance() - amount);
-			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_name, account->getBalance());
 			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
 			vecPtr->push_back(transaction);
 		}
@@ -101,7 +102,7 @@ void Employee::withdrawMoney(Bank bank, string s_number, int r_number, double am
 			{
 				bank.bank_account->setBalance(bank.bank_account->getBalance() - yet_to_withdraw);
 				bank.admin->overdrafts.push_back(c_account->getCustomer());
-				Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+				Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_name, account->getBalance());
 				vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
 				vecPtr->push_back(transaction);
 			}
@@ -109,14 +110,14 @@ void Employee::withdrawMoney(Bank bank, string s_number, int r_number, double am
 		else
 		{
 			account->setBalance(c_account->getBalance() - amount);
-			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_name, account->getBalance());
 			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
 			vecPtr->push_back(transaction);
 		}
 	}	
 }
 
-void Employee::viewTransactions(Bank bank, int number)
+void Employee::viewTransactions(Bank &bank, int number)
 {
 	Customer* customer;
 	Account* account;

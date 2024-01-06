@@ -1,3 +1,3 @@
 #include "SavingAccount.h"
 
-SavingAccount::SavingAccount(string h, int number, double b) : Account(h, number, b) {}
+SavingAccount::SavingAccount(string h, string c, int number, double b) : Account(h, c, number, b) {}

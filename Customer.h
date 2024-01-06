@@ -20,7 +20,7 @@ class Customer : public User
      vector<Transaction*> transactions;
 
  public:
-    Customer(string name);
+    Customer(string name, string c_number);
     //Customer(string name, int s_number, int c_number);
     ~Customer();
     SavingAccount* getSavingAccount();

@@ -4,6 +4,6 @@
 class SavingAccount : public Account
 {
 public:
-    SavingAccount(string h, int number, double b);
+    SavingAccount(string h, string c, int number, double b);
 
 };
