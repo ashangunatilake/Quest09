@@ -1,9 +1,10 @@
 #include "Employee.h"
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
-Employee::Employee(string name, string c_number) : User(name, c_number) {}
+Employee::Employee(string name) : User(name, 'E', "non") {}
 
 void Employee::addCustomer(Bank &bank, string name, string c_number)
 {
@@ -14,12 +15,11 @@ void Employee::addCustomer(Bank &bank, string name, string c_number)
 void Employee::createSavingAccount(Bank &bank, string name)
 {
 	Customer* customer = bank.getCustomer(name);
-
 	srand(static_cast<unsigned int>(time(nullptr)));
 	int account_number = rand() % (800000 - 900000 + 1);
 
 	//account is created with 0 balance
-	SavingAccount* saving_account = new SavingAccount(customer->getUsername(), customer->getContactNumber(), account_number, 0);
+	SavingAccount* saving_account = new SavingAccount(customer->getUsername(), account_number, 0);
 	bank.saving_accounts.push_back(saving_account);
 }
 
@@ -31,7 +31,7 @@ void Employee::createCurrentAccount(Bank &bank, string name, double overdraft)
 	int account_number = rand() % (800000 - 900000 + 1);
 
 	//account is created with 0 balance and 0 overdraft limit
-	CurrentAccount* current_account = new CurrentAccount(customer->getUsername(), customer->getContactNumber(), account_number, 0, 0);
+	CurrentAccount* current_account = new CurrentAccount(customer->getUsername(), account_number, 0, 0);
 	current_account->setOverdraftLimit(overdraft);
 	bank.current_accounts.push_back(current_account);
 }
@@ -42,10 +42,16 @@ void Employee::closeCustomerAccount(Bank &bank, int number)
 	if (account = bank.getSavingAccount(number))
 	{
 		bank.saving_accounts.erase(remove(bank.saving_accounts.begin(), bank.saving_accounts.end(), account), bank.saving_accounts.end());
+		cout << "Savings account deleted" << endl;
 	}
 	else if (account = bank.getCurrentAccount(number))
 	{
 		bank.current_accounts.erase(remove(bank.current_accounts.begin(), bank.current_accounts.end(), account), bank.current_accounts.end());
+		cout << "Current accout deleted" << endl;
+	}
+	else
+	{
+		cout << "Account not found" << endl;
 	}
 }
 

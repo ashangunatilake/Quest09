@@ -9,9 +9,12 @@ protected:
 	string username;
 	string password;
 	string contact_number;
+	char type;
 
 public:
-	User(string name, string c_number);
+	User();
+	User(string name, char t, string c_number);
 	string getUsername();
 	string getContactNumber();
+	string getPassword();
 };

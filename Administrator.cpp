@@ -5,7 +5,7 @@ using namespace std;
 
 Administrator::Administrator() : User() {}
 
-Administrator::Administrator(string name) : User(name, 'A') {}
+Administrator::Administrator(string name) : User(name, 'A', "non") {}
 	
 void Administrator::addEmployee(Bank& bank, string name)
 {
@@ -13,12 +13,12 @@ void Administrator::addEmployee(Bank& bank, string name)
 	bank.employees.push_back(employee);
 }
 
-void Administrator::setAnnualSavingInterest(Bank bank, double rate)
+void Administrator::setAnnualSavingInterest(Bank& bank, double rate)
 {
 	bank.annual_saving_rate = rate;
 }
 
-void Administrator::setOverdraftCharge(Bank bank, double charge)
+void Administrator::setOverdraftCharge(Bank& bank, double charge)
 {
 	bank.overdraft_charge = charge;
 }

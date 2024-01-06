@@ -1,4 +1,4 @@
-#include "Account.h";
+#include "Account.h"
 #include "Customer.h"
 
 Account::Account(int number)
@@ -8,11 +8,10 @@ Account::Account(int number)
     balance = 0;
 }
 
-Account::Account(string h, string c, int number, double b)
+Account::Account(string h, int number, double b)
 {
     customer = NULL;
     holder = h;
-    contact_number = c;
     account_number = number;
     balance = b;
 }

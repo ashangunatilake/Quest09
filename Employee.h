@@ -17,7 +17,7 @@ using namespace std;
 class Employee : public User
 {
 public:
-	Employee(string name, string c_number);
+	Employee(string name);
 	void addCustomer(Bank &bank, string name, string c_number);
 	void createSavingAccount(Bank &bank, string name);
 	void createCurrentAccount(Bank &bank, string name, double overdraft = 0);

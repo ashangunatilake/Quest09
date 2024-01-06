@@ -73,6 +73,7 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 	string name;
 	string pw;
 	char t;
+	string number;
 	if (!file.is_open()) {
 		cerr << "Error opening the file!" << endl;
 		return;
@@ -81,7 +82,7 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 	while (getline(file, line))
 	{
 		istringstream iss(line);
-		iss >> name >> pw >> t;
+		iss >> name >> pw >> t ;
 		if (t == 'E')
 		{
 			Employee* employee = new Employee(name);
@@ -89,24 +90,23 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 		}
 		if (t == 'C')
 		{
-			Customer* customer = new Customer(name);
+			iss >> number;
+			Customer* customer = new Customer(name, number);
 			bank.customers.push_back(customer);
 		}
 	}
 	file.close();
 
-	ifstream file(accoutfile);
+	ifstream file2(accoutfile);
 	string holder;
 	int an;
 	double b;
 	double ol;
-	char t;
-	if (!file.is_open()) {
+	if (!file2.is_open()) {
 		cerr << "Error opening the file!" << endl;
 		return;
 	}
-	string line;
-	while (getline(file, line))
+	while (getline(file2, line))
 	{
 		istringstream iss(line);
 		iss >> holder >> an >> b >> ol >> t;
@@ -185,7 +185,7 @@ int main()
 		Administrator admin;
 		do
 		{
-			//system("CLS");
+			system("CLS");
 			cout << "Functions : \n1. Add Employee\n2. Increase date\n3. Set interest rate\n4. Set overdraft charge\n5. Log out\n" << endl;
 			cout << "Enter choice - ";
 			cin >> num2;
@@ -195,17 +195,138 @@ int main()
 				admin.addEmployee(bank, number);
 				ofstream file("users.txt", ios::app);
 				file << bank.employees[bank.employees.size() - 1]->getUsername() << " " << bank.employees[bank.employees.size() - 1]->getPassword() << " " << "E" << endl;
-				cout << bank.employees[2]->getUsername() << endl;
 				file.close();
+				cout << "Employee added" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
 			}
-			else if (num == 2)
+			else if (num2 == 2)
 			{
 				admin.increaseDate(bank);
-				cout << bank.current_date << endl;
+				cout << "Current date - " << bank.current_date << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 3)
+			{
+				double rate;
+				cout << "Enter annual savings rate (in decimal format) - ";
+				cin >> rate;
+				admin.setAnnualSavingInterest(bank, rate);
+				cout << "Savings rate set to " << rate << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 4)
+			{
+				double charge;
+				cout << "Enter overdraft charge - ";
+				cin >> charge;
+				admin.setOverdraftCharge(bank, charge);
+				cout << "Overdraft charge set to " << charge << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 5)
+			{
+				loggedIn = false;
+				cout << "Successfully logged out" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
 			}
 		} while (loggedIn);
+
 	}
-		
+	if (num == 2)
+	{
+		Employee employee(userName);
+		do
+		{
+			system("CLS");
+			cout << "Functions : \n1. Add Customer\n2. Create Savings Account\n3. Set Current Account\n4. Close account\n5. Deposit money\n6. Withdraw money\n7. View transactions\n" << endl;
+			cout << "Enter choice - ";
+			cin >> num2;
+			if (num2 == 1)
+			{
+				string contact;
+				cout << "Enter contact number - ";
+				cin >> contact;
+				string number = "customer00" + to_string(bank.customers.size() + 1);
+				employee.addCustomer(bank, number, contact);
+				ofstream file("users.txt", ios::app);
+				file << bank.customers[bank.customers.size() - 1]->getUsername() << " " << bank.employees[bank.customers.size() - 1]->getPassword() << " " << "C" << " " << contact << endl;
+				file.close();
+				cout << "Customer added" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 2)
+			{
+				string name;
+				cout << "Enter customer User Name - ";
+				cin >> name;
+				if (bank.getCustomer(name) == NULL)
+				{
+					cout << "Customer not found" << endl;
+					cout << "Press Enter";
+					cin.get();
+					cin.get();
+					continue;
+				}
+				employee.createSavingAccount(bank, name);
+				bank.saving_accounts[bank.saving_accounts.size() - 1]->setCustomer(bank.getCustomer(name));
+				cout << bank.saving_accounts[bank.saving_accounts.size() - 1]->getAccountNumber() << endl;
+				ofstream file("accounts.txt", ios::app);
+				file << bank.saving_accounts[bank.saving_accounts.size() - 1]->getCustomer()->getUsername()<< " " << bank.saving_accounts[bank.saving_accounts.size() - 1]->getAccountNumber() << " " << bank.saving_accounts[bank.saving_accounts.size() - 1]->getBalance() << " " << "S" << endl;
+				file.close();
+				cout << "Account successfully created" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 3)
+			{
+				string name;
+				cout << "Enter customer User Name - ";
+				cin >> name;
+				if (bank.getCustomer(name) == NULL)
+				{
+					cout << "Customer not found" << endl;
+					cout << "Press Enter";
+					cin.get();
+					cin.get();
+					continue;
+				}
+				double value;
+				cout << "Enter overdraft value - ";
+				cin >> value;
+				employee.createCurrentAccount(bank, name, value);
+				bank.current_accounts[bank.current_accounts.size() - 1]->setCustomer(bank.getCustomer(name));
+				cout << bank.current_accounts[bank.current_accounts.size() - 1]->getAccountNumber() << endl;
+				ofstream file("accounts.txt", ios::app);
+				file << bank.current_accounts[bank.current_accounts.size() - 1]->getCustomer()->getUsername() << " " << bank.current_accounts[bank.current_accounts.size() - 1]->getAccountNumber() << " " << bank.current_accounts[bank.current_accounts.size() - 1]->getBalance() << " " << "C" << endl;
+				file.close();
+				cout << "Account successfully created" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 4)
+			{
+				int num;
+				cout << "Enter account number - ";
+				cin >> num;
+				employee.closeCustomerAccount(bank, num);
+			}
+		} while (loggedIn);
+
+	}
 	
 	return 0;
 }

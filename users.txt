@@ -1,6 +1,11 @@
 admin Password@1234 A
 employee001 Password@1234 E
-customer001 Password@1234 C
+customer001 Password@1234 C 0718764732
 employee002 Password@1234 E
 employee003 Password@1234 E
 employee004 Password@1234 E
+employee005 Password@1234 E
+customer002 Password@1234 E 0714822824
+customer002 Password@1234 C 0714822824
+customer003 Password@1234 C 0712345678
+customer004 Password@1234 C 0715265423

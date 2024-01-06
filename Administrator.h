@@ -18,8 +18,8 @@ public:
 
 	void addEmployee(Bank& bank, string name);
 	void increaseDate(Bank& bank);
-	void setAnnualSavingInterest(Bank bank, double rate);
-	void setOverdraftCharge(Bank bank, double charge);
+	void setAnnualSavingInterest(Bank& bank, double rate);
+	void setOverdraftCharge(Bank& bank, double charge);
 	void addDailyInterest(Bank& bank);
 	void chargeDailyOverdraftPenalty(Bank bank);
 };
