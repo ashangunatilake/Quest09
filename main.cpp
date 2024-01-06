@@ -126,7 +126,52 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 	file.close();
 }
 
+void  writeFile(Bank& bank, string userfile, string accoutfile)
+{
+	ofstream file;
+	file.open(userfile);
 
+	if (file.is_open())
+	{
+		for (const auto& e : bank.employees)
+		{
+			file << e->getUsername() << "Password@1234" << e->getContactNumber() << "E" << endl;
+		}
+
+		for (const auto& c : bank.customers)
+		{
+			//note this
+			file << c->getUsername() << "Password@1234" << c->getContactNumber() << "C" << endl;
+		}
+		file.close();
+		cout << "User written to file." << endl;
+	}
+	else
+	{
+		cout << "Unable to open file." << endl;
+	}
+
+	file.open(accoutfile);
+
+	if (file.is_open())
+	{
+		for (const auto& a : bank.saving_accounts)
+		{
+			file << a->getCustomer()->getUsername() << a->getCustomer()->getContactNumber() << a->getAccountNumber() << a->getBalance() << "0" << "S" << endl;
+		}
+
+		for (const auto& a : bank.current_accounts)
+		{
+			file << a->getCustomer()->getUsername() << a->getCustomer()->getContactNumber() << a->getAccountNumber() << a->getBalance() << a->getOverdraftLimit() << "C" << endl;
+		}
+		file.close();
+		cout << "Accounts written to file." << endl;
+	}
+	else
+	{
+		cout << "Unable to open file." << endl;
+	}
+}
 
 
 int main()
@@ -327,6 +372,7 @@ int main()
 		} while (loggedIn);
 
 	}
-	
+	writeFile(bank, "users.txt", "accounts.txt");
+
 	return 0;
 }
