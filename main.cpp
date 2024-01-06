@@ -115,12 +115,14 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 			SavingAccount* saving_account = new SavingAccount(holder, an, b);
 			saving_account->setCustomer(bank.getCustomer(holder));
 			bank.getCustomer(holder)->setSavingAccount(saving_account);
+			bank.saving_accounts.push_back(saving_account);
 		}
 		if (t == 'C')
 		{
 			CurrentAccount* current_account = new CurrentAccount(holder, an, b, ol);
 			current_account->setCustomer(bank.getCustomer(holder));
 			bank.getCustomer(holder)->setCurrentAccount(current_account);
+			bank.current_accounts.push_back(current_account);
 		}
 	}
 	file.close();
@@ -133,15 +135,16 @@ void  writeFile(Bank& bank, string userfile, string accoutfile)
 
 	if (file.is_open())
 	{
+		file << "admin" << " " << "Password@1234" << " " << "A" << endl;
 		for (const auto& e : bank.employees)
 		{
-			file << e->getUsername() << "Password@1234" << e->getContactNumber() << "E" << endl;
+			file << e->getUsername() << " " << e->getPassword() << " " << "E" << endl;
 		}
 
 		for (const auto& c : bank.customers)
 		{
 			//note this
-			file << c->getUsername() << "Password@1234" << c->getContactNumber() << "C" << endl;
+			file << c->getUsername() << " " << c->getPassword() << " " << "C" << " " << c->getContactNumber() << endl;
 		}
 		file.close();
 		cout << "User written to file." << endl;
@@ -157,12 +160,12 @@ void  writeFile(Bank& bank, string userfile, string accoutfile)
 	{
 		for (const auto& a : bank.saving_accounts)
 		{
-			file << a->getCustomer()->getUsername() << a->getCustomer()->getContactNumber() << a->getAccountNumber() << a->getBalance() << "0" << "S" << endl;
+			file << a->getCustomer()->getUsername() << " " << a->getAccountNumber() << " " << a->getBalance() << " " << "S" << endl;
 		}
 
 		for (const auto& a : bank.current_accounts)
 		{
-			file << a->getCustomer()->getUsername() << a->getCustomer()->getContactNumber() << a->getAccountNumber() << a->getBalance() << a->getOverdraftLimit() << "C" << endl;
+			file << a->getCustomer()->getUsername() << " " << a->getAccountNumber() << " " << a->getBalance() << " " << "C" << endl;
 		}
 		file.close();
 		cout << "Accounts written to file." << endl;
@@ -182,7 +185,7 @@ int main()
 	int num;
 	int num2;
 	bool loggedIn = false;
-	cout << "1. Login - Admin\n2. Login - Employee\n3. Login- Customer\n" << endl;
+	cout << "1. Login - Admin\n2. Login - Employee\n3. Login- Customer\n4. Deposit money" << endl;
 	cout << "Enter choice - ";
 	cin >> num;
 	system("CLS");
@@ -293,7 +296,7 @@ int main()
 		do
 		{
 			system("CLS");
-			cout << "Functions : \n1. Add Customer\n2. Create Savings Account\n3. Set Current Account\n4. Close account\n5. Deposit money\n6. Withdraw money\n7. View transactions\n" << endl;
+			cout << "Functions : \n1. Add Customer\n2. Create Savings Account\n3. Create Current Account\n4. Close account\n5. Deposit money\n6. Withdraw money\n7. View transactions\n8. Log out" << endl;
 			cout << "Enter choice - ";
 			cin >> num2;
 			if (num2 == 1)
@@ -368,11 +371,99 @@ int main()
 				cout << "Enter account number - ";
 				cin >> num;
 				employee.closeCustomerAccount(bank, num);
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
 			}
+			else if (num2 == 5)
+			{
+				int num;
+				string name;
+				double amount;
+				cout << "Enter account number to deposit - ";
+				cin >> num;
+				cout << "Enter name of the depositor - ";
+				cin >> name;
+				cout << "Enter amount - ";
+				cin >> amount;
+				employee.depositMoney(bank, name, num, amount);
+				cout << "Press Enter" << endl;
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 6)
+			{
+				int num;
+				string name;
+				double amount;
+				cout << "Enter account number to withdraw - ";
+				cin >> num;
+				cout << "Enter name of the withdraw - ";
+				cin >> name;
+				cout << "Enter amount - ";
+				cin >> amount;
+				employee.withdrawMoney(bank, name, num, amount);
+				cout << "Press Enter" << endl;
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 7)
+			{
+				int num;
+				cout << "Enter account number to view transactions - ";
+				cin >> num;
+				employee.viewTransactions(bank, num);
+				cout << "Press Enter" << endl;
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 8)
+			{
+				loggedIn = false;
+				cout << "Successfully logged out" << endl;
+				cout << "Press Enter";
+				cin.get();
+				cin.get();
+			}
+		} while (loggedIn);
+	}
+	if (num == 3)
+	{
+		Customer* customers;
+		for (Customer* customer : bank.customers)
+		{
+			if (customer->getUsername() == userName)
+			{
+				customers = customer;
+				break;
+			}
+		}
+		cout << customers->getPassword() << endl;
+		do 
+		{
+			system("CLS");
+			cout << "Functions : \n1. View transactions\n2. Deposit money\n3. Withdraw money\n4. Log out\n" << endl;
+			cout << "Enter choice - ";
+			cin >> num2;
+			if (num2 == 1)
+			{
+				customers->viewTransactions();
+				cout << "Press enter";
+				cin.get();
+				cin.get();
+			}
+			else if (num2 == 2)
+			{
+				
+			}
+
 		} while (loggedIn);
 
 	}
+	if (num == 4)
+	{
+		
+	}
 	writeFile(bank, "users.txt", "accounts.txt");
-
 	return 0;
 }

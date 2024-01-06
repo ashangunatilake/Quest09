@@ -1,4 +1,2 @@
-customer001 8000000 50000 S
-customer002 8000001 30000 C
-customer003 4244 0 C
-customer003 4355 0 S
+customer004 23142 5000 C
+customer001 22375 0 C

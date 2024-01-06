@@ -57,7 +57,7 @@ void  Customer::writeTransaction(Transaction* transaction)
 
     // Open a file in append mode
     ofstream transactionFile;
-    transactionFile.open(username + "_transactions.txt", ios::app);
+    transactionFile.open("Transactions/" + username + "_transactions.txt", ios::app);
 
     if (transactionFile.is_open())
     {
@@ -81,7 +81,7 @@ void  Customer::writeTransaction(Transaction* transaction)
 
 void  Customer::viewTransactions()
 {
-    ifstream transactionFile(username + "_transactions.txt");
+    ifstream transactionFile("Transactions/"+ username + "_transactions.txt");
 
     if (transactionFile.is_open())
     {
