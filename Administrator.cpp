@@ -1,5 +1,5 @@
-#include <string>
 #include "Administrator.h"
+#include <string>
 
 using namespace std;
 
@@ -11,26 +11,34 @@ void Administrator::addEmployee(Bank bank, string name)
 	bank.employees.push_back(employee);
 }
 
-void Administrator::increaseDate(Bank bank)
-{
-	bank.current_date++;
-}
-
 void Administrator::setAnnualSavingInterest(Bank bank, double rate)
 {
 	bank.annual_saving_rate = rate;
 }
 
-void Administrator::addDailyInterest(Bank bank, double rate)
+void Administrator::setOverdraftCharge(Bank bank, double charge)
+{
+	bank.overdraft_charge = charge;
+}
+
+void Administrator::addDailyInterest(Bank bank)
 {
 	for (const auto& a : bank.saving_accounts)
 	{
-		a->setBalance(a->getBalance() + a->getBalance() * rate);
-		//a.amount = a.amount + a.amount * rate;
+		a->setBalance(a->getBalance() + a->getBalance() * (bank.annual_saving_rate / 365));
 	}
 }
 
-void setOverdraftCharge(Bank bank, double charge)
+void Administrator::chargeDailyOverdraftPenalty(Bank bank)
 {
-	bank.overdraft_charge = charge;
+	for (const auto& c : overdrafts)
+	{
+		c->setOverdraftCharges(c->getOverdraftCharges() + bank.overdraft_charge);
+	}
+}
+
+void Administrator::increaseDate(Bank bank)
+{
+	bank.current_date++;
+	chargeDailyOverdraftPenalty(bank);
 }

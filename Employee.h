@@ -8,6 +8,7 @@
 #include "Account.h"
 #include "SavingAccount.h"
 #include "CurrentAccount.h"
+#include "Transaction.h"
 
 class Bank;
 
@@ -21,7 +22,7 @@ public:
 	void createSavingAccount(Bank bank, string name);
 	void createCurrentAccount(Bank bank, string name, double overdraft = 0);
 	void closeCustomerAccount(Bank bank, int number);
-	void depositMoney(Bank bank, int number, double amount);
-	void withdrawMoney(Bank bank, int number, double amount);
-	void viewTransactions();
+	void depositMoney(Bank bank, string s_number, int r_number, double amount);
+	void withdrawMoney(Bank bank, string s_number, int r_number, double amount);
+	void viewTransactions(Bank bank, int number);
 };

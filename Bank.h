@@ -23,7 +23,6 @@ public:
 	Account* bank_account;
 	vector<Employee*> employees;
 	vector<Customer*> customers;
-	vector<Account*> accounts;
 	vector<SavingAccount*> saving_accounts;
 	vector<CurrentAccount*> current_accounts;
 

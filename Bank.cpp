@@ -43,17 +43,4 @@ Account* Bank::getCurrentAccount(int number)
 			return a;
 		}
 	}
-
-	/*for (const auto& a : accounts)
-	{
-		if (a.account_number == number)
-		{
-			return a;
-		}
-	}*/
 }
-
-/*Account* getAccount(int number)
-{
-		
-}*/

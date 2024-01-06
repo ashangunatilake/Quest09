@@ -46,23 +46,29 @@ void Employee::closeCustomerAccount(Bank bank, int number)
 	}
 }
 
-void Employee::depositMoney(Bank bank, int number, double amount)
+void Employee::depositMoney(Bank bank, string s_number, int r_number, double amount)
 {
 	Account* account;
-	if (account = bank.getSavingAccount(number))
+	if (account = bank.getSavingAccount(r_number))
 	{
-		account->setBalance(amount);
+		account->setBalance(account->getBalance() + amount);
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_number, account->getBalance());
+		vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+		vecPtr->push_back(transaction);
 	}
-	else if (account = bank.getCurrentAccount(number))
+	else if (account = bank.getCurrentAccount(r_number))
 	{
-		account->setBalance(amount);
+		account->setBalance(account->getBalance() + amount);
+		Transaction* transaction = new Transaction(bank.current_date, "deposit", amount, s_number, account->getBalance());
+		vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+		vecPtr->push_back(transaction);
 	}
 }
 
-void Employee::withdrawMoney(Bank bank, int number, double amount)
+void Employee::withdrawMoney(Bank bank, string s_number, int r_number, double amount)
 {
 	Account* account;
-	if (account = bank.getSavingAccount(number))
+	if (account = bank.getSavingAccount(r_number))
 	{
 		if (account->getBalance() < amount)
 		{
@@ -72,17 +78,19 @@ void Employee::withdrawMoney(Bank bank, int number, double amount)
 		else
 		{
 			account->setBalance(account->getBalance() - amount);
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+			vecPtr->push_back(transaction);
 		}
 	}
-	else if (account = bank.getCurrentAccount(number))
+	else if (account = bank.getCurrentAccount(r_number))
 	{
-		//CurrentAccount* c_account = account;
+		CurrentAccount* c_account = static_cast<CurrentAccount*>(account);
 		int yet_to_withdraw;
-		if (account->getBalance() < amount)
+		if (c_account->getBalance() < amount)
 		{
-			//////////////////////////////////////////////////
-			yet_to_withdraw = amount - account->getBalance();
-			/*if (account->overdraft_limit < yet_to_withdraw)
+			yet_to_withdraw = amount - c_account->getBalance();
+			if (c_account->getOverdraftLimit() < yet_to_withdraw)
 			{
 				cout << "Withdraw Amount Exceeds Overdraft Limit!" << endl;
 				return;
@@ -90,16 +98,35 @@ void Employee::withdrawMoney(Bank bank, int number, double amount)
 			else
 			{
 				bank.bank_account->setBalance(bank.bank_account->getBalance() - yet_to_withdraw);
-			}*/
+				bank.admin->overdrafts.push_back(c_account->getCustomer());
+				Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+				vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+				vecPtr->push_back(transaction);
+			}
 		}
 		else
 		{
-			account->setBalance(amount);
+			account->setBalance(c_account->getBalance() - amount);
+			Transaction* transaction = new Transaction(bank.current_date, "withdraw", amount, s_number, account->getBalance());
+			vector<Transaction*>* vecPtr = account->getCustomer()->getTransactions();
+			vecPtr->push_back(transaction);
 		}
 	}	
 }
 
-void Employee::viewTransactions()
+void Employee::viewTransactions(Bank bank, int number)
 {
-
+	Customer* customer;
+	Account* account;
+	if (account = bank.getSavingAccount(number))
+	{
+		customer = account->getCustomer();
+		customer->viewTransactions();
+		
+	}
+	else if (account = bank.getCurrentAccount(number))
+	{
+		customer = account->getCustomer();
+		customer->viewTransactions();
+	}
 }

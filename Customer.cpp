@@ -1,10 +1,12 @@
 #include "Customer.h"
+#include <fstream>
 #include <iostream>
 
 Customer::Customer(string name) : User(name)
 {
     saving_account = NULL;
     current_account = NULL;
+    overdraft_charges = 0;
 }
 
 Customer::~Customer(){}
@@ -18,18 +20,76 @@ CurrentAccount* Customer::getCurrentAccount()
     return current_account;
 }
 
-//void Customer::ShowCustomerDetails()
-//{
-//    cout<<"Customer name :"<<Name<<endl;
-//    cout<<"Customer user name :"<<UserName<<endl;;
-//    cout<<"Customer contact detail :"<<PhoneNumber<<endl;
-//    if(SavingAccount!=nullptr)
-//    {
-//        SavingAccount->ShowAccountDetails();
-//    }
-//    if(CurrentAccount!=nullptr)
-//    {
-//        CurrentAccount->ShowAccountDetails();
-//    }
-//    
-//}
+double Customer::getOverdraftCharges()
+{
+    return overdraft_charges;
+}
+
+vector<Transaction*>* Customer::getTransactions()
+{
+    return &transactions;
+}
+
+void Customer::setOverdraftCharges(double overdraft)
+{
+    overdraft_charges = overdraft;
+}
+
+void  Customer::writeTransaction(Transaction* transaction)
+{
+    //// Generate a timestamp for the transaction
+    //time_t now = time(0);
+    //tm* timePtr = localtime(&now);
+    //int year = 1900 + timePtr->tm_year;
+    //int month = 1 + timePtr->tm_mon;
+    //int day = timePtr->tm_mday;
+
+    // Open a file in append mode
+    ofstream transactionFile;
+    transactionFile.open(username + "_transactions.txt", ios::app);
+
+    if (transactionFile.is_open())
+    {
+        // Write transaction details to the file
+        //transactionFile << "Date: " << day << "/" << month << "/" << year << "\n";
+        transactionFile << "Date: " << transaction->date << "\n";
+        transactionFile << "Type: " << transaction->type << "\n";
+        transactionFile << "Amount: " << transaction->amount << "\n";
+        transactionFile << "Sender's Account Number: " << transaction->senders_account_number << "\n";
+        transactionFile << "Balance: " << transaction->balance << "\n\n";
+
+        // Close the file
+        transactionFile.close();
+        cout << "Transaction written to file." << endl;
+    }
+    else
+    {
+        cout << "Unable to open file." << endl;
+    }
+}
+
+void  Customer::viewTransactions()
+{
+    ifstream transactionFile(username + "_transactions.txt");
+
+    if (transactionFile.is_open())
+    {
+        string line;
+        if (!getline(transactionFile, line))
+        {
+            cout << "No transactions found for this customer." << endl;
+            return;
+        }
+
+        while (getline(transactionFile, line))
+        {
+            cout << line << endl;
+        }
+
+        transactionFile.close();
+    }
+    else
+    {
+        cout << "Unable to open file." << endl;
+    }
+}
