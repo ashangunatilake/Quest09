@@ -8,6 +8,14 @@ Account::Account(int number)
     balance = 0;
 }
 
+Account::Account(string h, int number, double b)
+{
+    customer = NULL;
+    holder = h;
+    account_number = number;
+    balance = b;
+}
+
 Account::~Account()
 {
 
@@ -71,6 +79,11 @@ Account::~Account()
 Customer* Account::getCustomer()
 {
     return customer;
+}
+
+void Account::setCustomer(Customer* holder)
+{
+    customer = holder;
 }
 
 int Account::getAccountNumber()

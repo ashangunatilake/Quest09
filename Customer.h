@@ -12,16 +12,21 @@ using namespace std;
 class Customer : public User
 {
  private:
-     SavingAccount *saving_account;
-     CurrentAccount *current_account;
+     //int saving_account_number;
+     //int current_account_number;
+     SavingAccount* saving_account;
+     CurrentAccount* current_account;
      double overdraft_charges;
      vector<Transaction*> transactions;
 
  public:
     Customer(string name);
+    //Customer(string name, int s_number, int c_number);
     ~Customer();
     SavingAccount* getSavingAccount();
+    void setSavingAccount(SavingAccount* account);
     CurrentAccount* getCurrentAccount();
+    void setCurrentAccount(CurrentAccount* account);
     double getOverdraftCharges();
     vector<Transaction*>* getTransactions();
     void setOverdraftCharges(double overdraft);

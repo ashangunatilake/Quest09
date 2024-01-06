@@ -9,15 +9,35 @@ Customer::Customer(string name) : User(name)
     overdraft_charges = 0;
 }
 
+//Customer::Customer(string name, int s_number, int c_number) : User(name)
+//{
+//    saving_account_number = s_number;
+//    current_account_number = c_number;
+//    saving_account = NULL;
+//    current_account = NULL;
+//    overdraft_charges = 0;
+//}
+
 Customer::~Customer(){}
 
 SavingAccount* Customer::getSavingAccount()
 {
     return saving_account;
 }
+
+void Customer::setSavingAccount(SavingAccount* account)
+{
+    saving_account = account;
+}
+
 CurrentAccount* Customer::getCurrentAccount()
 {
     return current_account;
+}
+
+void Customer::setCurrentAccount(CurrentAccount* account)
+{
+    current_account = account;
 }
 
 double Customer::getOverdraftCharges()

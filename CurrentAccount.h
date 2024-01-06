@@ -8,6 +8,7 @@ private:
 
 public:
     CurrentAccount(int number);
+    CurrentAccount(string h, int number, double b, double ol);
     double getOverdraftLimit();
     void setOverdraftLimit(double amount);
 };
