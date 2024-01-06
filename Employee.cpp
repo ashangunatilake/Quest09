@@ -1,9 +1,11 @@
 #include "Employee.h"
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
-Employee::Employee(string name) : User(name) {}
+Employee::Employee(string name) : User(name, 'E') {}
+
 
 void Employee::addCustomer(Bank bank, string name)
 {

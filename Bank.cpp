@@ -9,7 +9,7 @@ Bank::Bank(int date, double rate, double charge)
 	current_date = date;
 	annual_saving_rate = rate;
 	overdraft_charge = charge;
-	bank_account->setBalance(1000000);
+	//bank_account->setBalance(1000000);
 }
 
 Customer* Bank::getCustomer(string name)
@@ -21,6 +21,7 @@ Customer* Bank::getCustomer(string name)
 			return c;
 		}
 	}
+	return NULL;
 }
 
 Account* Bank::getSavingAccount(int number)
@@ -32,6 +33,7 @@ Account* Bank::getSavingAccount(int number)
 			return a;
 		}
 	}
+	return NULL;
 }
 
 Account* Bank::getCurrentAccount(int number)
@@ -43,4 +45,5 @@ Account* Bank::getCurrentAccount(int number)
 			return a;
 		}
 	}
+	return NULL;
 }

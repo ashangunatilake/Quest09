@@ -69,7 +69,7 @@ bool login(string username, string password, char type)
 
 void loadFile(Bank& bank, string userfile, string accoutfile)
 {
-	ifstream file("users.txt");
+	ifstream file(userfile);
 	string name;
 	string pw;
 	char t;
@@ -95,7 +95,7 @@ void loadFile(Bank& bank, string userfile, string accoutfile)
 	}
 	file.close();
 
-	ifstream file("accounts.txt");
+	ifstream file(accoutfile);
 	string holder;
 	int an;
 	double b;

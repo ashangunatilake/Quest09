@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-Customer::Customer(string name) : User(name)
+Customer::Customer(string name) : User(name, 'C')
 {
     saving_account = NULL;
     current_account = NULL;
